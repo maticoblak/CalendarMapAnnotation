@@ -27,6 +27,12 @@
     _mapView.delegate = self;
     [self addSubview:_mapView];
     [_mapView reloadData];
+    
+    UIButton *addNewButton = [[UIButton alloc] initWithFrame:CGRectMake(11.0f, 20.0f, 80.0f, 36.0f)];
+    [addNewButton setTitle:@"Add" forState:UIControlStateNormal];
+    [addNewButton setBackgroundColor:[UIColor grayColor]];
+    [addNewButton addTarget:self action:@selector(newEntryPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:addNewButton];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -54,5 +60,28 @@
 ///////////////////////////////////////////////////////
 - (void)reloadData {
     [_mapView reloadData];
+}
+///////////////////////////////////////////////////////
+///          Add new event
+#pragma mark Add new event
+///////////////////////////////////////////////////////
+- (void)newEntryPressed:(id)sender {
+    _addNewPopupView = [[AddNewEventView alloc] initWithFrame:CGRectMake(self.width, .0f, self.width, self.height)];
+    _addNewPopupView.delegate = self;
+    _addNewPopupView.exclusiveTouch = YES;
+    _addNewPopupView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.8f];
+    [self addSubview:_addNewPopupView];
+    
+    [UIView animateWithDuration:.2 animations:^{
+        _addNewPopupView.left = .0f;
+    }];
+}
+- (void)addNewEventViewFinishedSettingEvent:(AddNewEventView *)sender {
+    [UIView animateWithDuration:.2 animations:^{
+        _addNewPopupView.left = self.width;
+    }completion:^(BOOL finished) {
+        [_addNewPopupView removeFromSuperview];
+        _addNewPopupView = nil;
+    }];
 }
 @end

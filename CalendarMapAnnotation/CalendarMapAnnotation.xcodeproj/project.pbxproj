@@ -28,6 +28,7 @@
 		210C0DE41990CB3300F138B2 /* EventAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 210C0DE31990CB3300F138B2 /* EventAnnotation.m */; };
 		210C0DE81990CBF500F138B2 /* CalendarTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 210C0DE71990CBF500F138B2 /* CalendarTools.m */; };
 		210C0DEB1990D1B300F138B2 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210C0DEA1990D1B300F138B2 /* MapViewController.m */; };
+		219FB2F71990E96300AF56E2 /* AddNewEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 219FB2F61990E96300AF56E2 /* AddNewEventView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		210C0DE71990CBF500F138B2 /* CalendarTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarTools.m; sourceTree = "<group>"; };
 		210C0DE91990D1B300F138B2 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		210C0DEA1990D1B300F138B2 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		219FB2F51990E96300AF56E2 /* AddNewEventView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewEventView.h; sourceTree = "<group>"; };
+		219FB2F61990E96300AF56E2 /* AddNewEventView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewEventView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +180,7 @@
 		210C0DD41990C8F900F138B2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				219FB2F41990E94F00AF56E2 /* UI elements */,
 				210C0DE51990CBC800F138B2 /* Calendar tools */,
 				210C0DD91990C9BA00F138B2 /* Tools */,
 				210C0DD51990C8F900F138B2 /* Map */,
@@ -231,6 +235,15 @@
 				210C0DE71990CBF500F138B2 /* CalendarTools.m */,
 			);
 			path = "Calendar tools";
+			sourceTree = "<group>";
+		};
+		219FB2F41990E94F00AF56E2 /* UI elements */ = {
+			isa = PBXGroup;
+			children = (
+				219FB2F51990E96300AF56E2 /* AddNewEventView.h */,
+				219FB2F61990E96300AF56E2 /* AddNewEventView.m */,
+			);
+			path = "UI elements";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,6 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				219FB2F71990E96300AF56E2 /* AddNewEventView.m in Sources */,
 				210C0DB61990C87600F138B2 /* ViewController.m in Sources */,
 				210C0DE01990C9BA00F138B2 /* ExtensionUIViewControllerViewExtension.m in Sources */,
 				210C0DE11990C9BA00F138B2 /* ExtensionUiViewFrame.m in Sources */,
@@ -554,6 +568,7 @@
 				210C0DD01990C87700F138B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		210C0DD11990C87700F138B2 /* Build configuration list for PBXNativeTarget "CalendarMapAnnotationTests" */ = {
 			isa = XCConfigurationList;
@@ -562,6 +577,7 @@
 				210C0DD31990C87700F138B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

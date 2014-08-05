@@ -20,6 +20,7 @@
 ///////////////////////////////////////////////////////
 @interface CalendarTools : NSObject
 + (NSArray *)fetchEvents;
++ (void)insertNewEvent:(NSString *)title withLocation:(NSString *)location atDate:(NSDate *)timeDate;
 @end
 ///////////////////////////////////////////////////////
 ///
@@ -36,6 +37,5 @@
 @property NSString *eventIdentifier;
 
 + (CalendarEntity *)withEventIdentifier:(NSString *)identifier;
-
 - (void)findCoordinatesForAddress:(NSString *)address;
 @end

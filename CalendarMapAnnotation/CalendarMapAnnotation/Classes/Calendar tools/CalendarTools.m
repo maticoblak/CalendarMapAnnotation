@@ -33,6 +33,29 @@
     return [self _entityArrayWithEvents:[self _getEvents]];//can be empty
 }
 ///////////////////////////////////////////////////////
+///          Handles
+#pragma mark Handles
+///////////////////////////////////////////////////////
++ (void)insertNewEvent:(NSString *)title withLocation:(NSString *)location atDate:(NSDate *)timeDate {
+    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    
+    [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        EKEvent *event = [EKEvent eventWithEventStore:eventStore];
+        event.title = title;
+        
+        event.startDate = timeDate;
+        event.endDate = timeDate;
+        event.location = location;
+        [event setCalendar:[eventStore defaultCalendarForNewEvents]];
+        
+        NSError *err;
+        [eventStore saveEvent:event span:EKSpanThisEvent error:&err];
+        if(err != nil) {
+            NSLog(@"Failed saving event! (%@)", err);
+        }
+    }];
+}
+///////////////////////////////////////////////////////
 ///          Internal
 #pragma mark Internal
 ///////////////////////////////////////////////////////

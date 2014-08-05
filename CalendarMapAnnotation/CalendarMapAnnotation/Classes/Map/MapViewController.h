@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "MapView.h"
+#import "AddNewEventView.h"
 ///////////////////////////////////////////////////////
 ///
 ///          -MapViewController-
 #pragma mark -MapViewController
 ///
 ///////////////////////////////////////////////////////
-@interface MapViewController : UIViewController<MapViewProtocol> {
+@interface MapViewController : UIViewController<MapViewProtocol, AddNewEventViewProtocol> {
     MapView *_mapView;
     NSTimer *_refreshTimer;
+    AddNewEventView *_addNewPopupView;
 }
 @end
