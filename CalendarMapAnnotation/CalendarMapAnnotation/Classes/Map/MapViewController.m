@@ -78,13 +78,19 @@
     if(startDate == nil) startDate = [NSDate date];
     NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[startDate timeIntervalSince1970] + (7.0*24.0*60.0*60.0)]; // + 7 days
     
-    NSArray *items = [EventAnnotation calendarAnnotationsFrom:startDate to:endDate];
-    for (EventAnnotation *annotation in items) {
+    NSMutableArray *items = [[EventAnnotation calendarAnnotationsFrom:startDate to:endDate] mutableCopy];
+    NSMutableArray *toRemove = [[NSMutableArray alloc] init];
+    for(EventAnnotation *annotation in items) {
         if(annotation.additionalInfo && [annotation.additionalInfo isKindOfClass:[CalendarEntity class]]) {
             CalendarEntity *entity = (CalendarEntity *)annotation.additionalInfo;
             annotation.color = [self _colorForDate:entity.eventDate];
+            //remove those outside the region
+            if(_includeRegionFilter && ! [MapViewController coordinate:entity.coordinate inRegion:_selectedRegion]) {
+                [toRemove addObject:annotation];
+            }
         }
     }
+    [items removeObjectsInArray:toRemove];
     return items;
 }
 ///////////////////////////////////////////////////////
@@ -214,5 +220,18 @@
     else {
         [_mapView endRegionSelectionMode];
     }
+}
+- (void)mapView:(MapView *)sender didSelectRegion:(MKCoordinateRegion)region {
+    _selectedRegion = region;
+    _includeRegionFilter = YES;
+}
++ (BOOL)coordinate:(CLLocationCoordinate2D)coord inRegion:(MKCoordinateRegion)region {
+    CLLocationCoordinate2D center = region.center;
+    MKCoordinateSpan span = region.span;
+    
+    BOOL result = YES;
+    result &= cos((center.latitude - coord.latitude)*M_PI/180.0) > cos(span.latitudeDelta*M_PI/180.0);
+    result &= cos((center.longitude - coord.longitude)*M_PI/180.0) > cos(span.longitudeDelta*M_PI/180.0);
+    return result;
 }
 @end

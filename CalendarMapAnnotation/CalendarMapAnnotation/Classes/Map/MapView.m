@@ -132,7 +132,17 @@
         default:
             break;
     }
-    
+    if([self.delegate respondsToSelector:@selector(mapView:didSelectRegion:)]) {
+        CLLocationCoordinate2D center = [_mapView convertPoint:CGPointMake((_regionSelectionView.left+_regionSelectionView.right)*.5f, (_regionSelectionView.bottom+_regionSelectionView.top)*.5f) toCoordinateFromView:self];
+        CLLocationCoordinate2D topLeft = [_mapView convertPoint:CGPointMake(_regionSelectionView.left, _regionSelectionView.top) toCoordinateFromView:self];
+        CLLocationCoordinate2D bottomRight = [_mapView convertPoint:CGPointMake(_regionSelectionView.right, _regionSelectionView.bottom) toCoordinateFromView:self];
+        
+        
+        [self.delegate mapView:self didSelectRegion:
+         MKCoordinateRegionMake(center,
+                                MKCoordinateSpanMake((bottomRight.latitude-topLeft.latitude)*.5f,
+                                                     (bottomRight.longitude-topLeft.longitude)*.5f))];
+    }
 }
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     //check if gesture began in one of the corners of the region selection view

@@ -28,6 +28,8 @@ UserTrackingProtocol> {
     EventAnnotation *_userAnotation;
     
     NSDate *_selectedPresentationDate;
+    MKCoordinateRegion _selectedRegion;
+    BOOL _includeRegionFilter;
     
     UIButton *_overlay;
     UIDatePicker *_datePicker;
