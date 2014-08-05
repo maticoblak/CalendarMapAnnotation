@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "EventAnnotation.h"
 #import "ExtensionUIViewControllerViewExtension.h"
+#import "CalendarTools.h"
 ///////////////////////////////////////////////////////
 ///
 ///          -MapViewController-
@@ -67,7 +68,30 @@
     NSDate *startDate = _selectedPresentationDate;
     if(startDate == nil) startDate = [NSDate date];
     NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[startDate timeIntervalSince1970] + (7.0*24.0*60.0*60.0)]; // + 7 days
-    return [EventAnnotation calendarAnnotationsFrom:startDate to:endDate];
+    
+    NSArray *items = [EventAnnotation calendarAnnotationsFrom:startDate to:endDate];
+    for (EventAnnotation *annotation in items) {
+        if(annotation.additionalInfo && [annotation.additionalInfo isKindOfClass:[CalendarEntity class]]) {
+            CalendarEntity *entity = (CalendarEntity *)annotation.additionalInfo;
+            annotation.color = [self _colorForDate:entity.eventDate];
+        }
+    }
+    return items;
+}
+///////////////////////////////////////////////////////
+///          Internal
+#pragma mark Internal
+///////////////////////////////////////////////////////
+- (UIColor *)_colorForDate:(NSDate *)date {
+    NSDate *startDate = _selectedPresentationDate;
+    if(startDate == nil) startDate = [NSDate date];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[startDate timeIntervalSince1970] + (7.0*24.0*60.0*60.0)]; // + 7 days
+    
+    CGFloat interpolator = [date timeIntervalSinceDate:startDate]/[endDate timeIntervalSinceDate:startDate];
+    if(interpolator < .0f) interpolator = .0f;
+    if(interpolator > 1.0f) interpolator = 1.0f;
+    
+    return [UIColor colorWithRed:1.0f-interpolator green:.0f blue:interpolator alpha:1.0f];
 }
 ///////////////////////////////////////////////////////
 ///          Handles
