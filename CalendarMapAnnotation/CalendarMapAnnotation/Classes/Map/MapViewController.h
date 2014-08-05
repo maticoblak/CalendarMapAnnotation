@@ -16,5 +16,6 @@
 ///////////////////////////////////////////////////////
 @interface MapViewController : UIViewController<MapViewProtocol> {
     MapView *_mapView;
+    NSTimer *_refreshTimer;
 }
 @end

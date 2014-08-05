@@ -37,4 +37,11 @@
     _annotationCache = [self.delegate mapViewAnotations:self];
     [_mapView addAnnotations:_annotationCache];
 }
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    if([annotation isKindOfClass:[EventAnnotation class]]) {
+        EventAnnotation *item = (EventAnnotation *)annotation;
+        return item.basicAnnotationView;
+    }
+    return nil;
+}
 @end

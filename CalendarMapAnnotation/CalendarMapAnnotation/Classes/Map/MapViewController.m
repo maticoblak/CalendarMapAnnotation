@@ -28,11 +28,31 @@
     [self addSubview:_mapView];
     [_mapView reloadData];
 }
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [_refreshTimer invalidate]; //just in case
+    _refreshTimer = nil;
+    
+    _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(reloadData) userInfo:nil repeats:YES];
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [_refreshTimer invalidate];
+    _refreshTimer = nil;
+}
 ///////////////////////////////////////////////////////
 ///          Map protocol
 #pragma mark Map protocol
 ///////////////////////////////////////////////////////
 - (NSArray *)mapViewAnotations:(MapView *)sender {
     return [EventAnnotation calendarAnnotations];
+}
+///////////////////////////////////////////////////////
+///          Handles
+#pragma mark Handles
+///////////////////////////////////////////////////////
+- (void)reloadData {
+    [_mapView reloadData];
 }
 @end

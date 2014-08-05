@@ -65,32 +65,13 @@
 + (NSArray *)_entityArrayWithEvents:(NSArray *)events {
     NSMutableArray *toReturn = [[NSMutableArray alloc] init];
     for(EKEvent *event in events) {
-        CalendarEntity *entity = [[CalendarEntity alloc] init];
+        CalendarEntity *entity = [CalendarEntity withEventIdentifier:event.eventIdentifier];
         entity.dispayString = event.title;
-        entity.coordinate = [self _addressForLocation:event.location];
+        [entity findCoordinatesForAddress:event.location];
         entity.eventDate = event.startDate;
         [toReturn addObject:entity];
     }
     return toReturn;
-}
-+ (CLLocationCoordinate2D)_addressForLocation:(NSString *)address {
-    double latitude = 0, longitude = 0;
-    NSString *esc_addr =  [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
-    NSString *result = [NSString stringWithContentsOfURL:[NSURL URLWithString:req] encoding:NSUTF8StringEncoding error:NULL];
-    if (result) {
-        NSScanner *scanner = [NSScanner scannerWithString:result];
-        if ([scanner scanUpToString:@"\"lat\" :" intoString:nil] && [scanner scanString:@"\"lat\" :" intoString:nil]) {
-            [scanner scanDouble:&latitude];
-            if ([scanner scanUpToString:@"\"lng\" :" intoString:nil] && [scanner scanString:@"\"lng\" :" intoString:nil]) {
-                [scanner scanDouble:&longitude];
-            }
-        }
-    }
-    CLLocationCoordinate2D center;
-    center.latitude = latitude;
-    center.longitude = longitude;
-    return center;
 }
 @end
 ///////////////////////////////////////////////////////
@@ -99,6 +80,43 @@
 #pragma mark -CalendarEntity
 ///
 ///////////////////////////////////////////////////////
-@implementation CalendarEntity
 
+static NSMutableArray *__calendarEntityCache = nil;
+
+@implementation CalendarEntity
++ (CalendarEntity *)withEventIdentifier:(NSString *)identifier {
+    CalendarEntity *toReturn = nil;
+    if(identifier.length > 0) {
+        //get from cache
+        for(CalendarEntity *entity in __calendarEntityCache) {
+            if([entity.eventIdentifier compare:identifier] == NSOrderedSame) {
+                toReturn = entity;
+                break;
+            }
+        }
+    }
+    if(toReturn == nil) {
+        //item not in cache
+        toReturn = [[CalendarEntity alloc] init];
+        toReturn.eventIdentifier = identifier;
+        if(identifier.length > 0) {
+            //can insert into a cache
+            if(__calendarEntityCache == nil) __calendarEntityCache = [[NSMutableArray alloc] init];
+            [__calendarEntityCache addObject:toReturn];
+        }
+    }
+    return toReturn;
+}
+- (void)findCoordinatesForAddress:(NSString *)address {
+    if(self.dispayString.length > 0) {
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        
+        [geocoder geocodeAddressString:address completionHandler:^(NSArray* placemarks, NSError* error) {
+            if(placemarks.count > 0) {
+                CLPlacemark* placemark = placemarks[0];
+                self.coordinate = placemark.location.coordinate;
+            }
+        }];
+    }
+}
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-
+#import "EventAnnotation.h"
 @class MapView;
 
 @protocol MapViewProtocol <NSObject>

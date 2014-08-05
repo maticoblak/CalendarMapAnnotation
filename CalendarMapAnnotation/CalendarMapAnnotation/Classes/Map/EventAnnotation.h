@@ -18,7 +18,8 @@
 @interface EventAnnotation : UIView<MKAnnotation> {
     CLLocationCoordinate2D _location;
 }
-@property NSDictionary *additionalInfo;
+@property id additionalInfo;
 @property CLLocationCoordinate2D location;
 + (NSArray *)calendarAnnotations;
+- (MKAnnotationView *)basicAnnotationView;
 @end

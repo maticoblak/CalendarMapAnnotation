@@ -8,6 +8,7 @@
 
 #import "EventAnnotation.h"
 #import "CalendarTools.h"
+#import "ExtensionUIViewControllerViewExtension.h"
 ///////////////////////////////////////////////////////
 ///
 ///          -EventAnnotation-
@@ -33,12 +34,7 @@
         EventAnnotation *annotation = [[EventAnnotation alloc] init];
         annotation.location = annotation.location;
         
-        NSMutableDictionary *additionalInfo = [[NSMutableDictionary alloc] init];
-        additionalInfo[@"latitude"] = @(entity.coordinate.latitude);
-        additionalInfo[@"longitude"] = @(entity.coordinate.longitude);
-        additionalInfo[@"title"] = entity.dispayString;
-        
-        annotation.additionalInfo = additionalInfo;
+        annotation.additionalInfo = entity;
         
         [toReturn addObject:annotation];
     }
@@ -50,6 +46,18 @@
 #pragma mark Map protocol
 ///////////////////////////////////////////////////////
 - (CLLocationCoordinate2D)coordinate {
+    if(self.additionalInfo && [self.additionalInfo isKindOfClass:[CalendarEntity class]]) {
+        CalendarEntity *entity = (CalendarEntity *)self.additionalInfo;
+        return entity.coordinate;
+    }
     return _location;
+}
+- (MKAnnotationView *)basicAnnotationView {
+    static const CGFloat dimension = 12.0f;
+    MKAnnotationView *toReturn = [[MKAnnotationView alloc] initWithFrame:CGRectMake(.0f, .0f, dimension, dimension)];
+    toReturn.clipsToBounds = YES;
+    toReturn.layer.cornerRadius = dimension*.5f;
+    toReturn.backgroundColor = [UIColor redColor];
+    return toReturn;
 }
 @end
