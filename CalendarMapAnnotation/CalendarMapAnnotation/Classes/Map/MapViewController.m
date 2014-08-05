@@ -58,7 +58,8 @@
 #pragma mark Map protocol
 ///////////////////////////////////////////////////////
 - (NSArray *)mapViewAnotations:(MapView *)sender {
-    return [EventAnnotation calendarAnnotations];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[[NSDate date] timeIntervalSince1970] + (7.0*24.0*60.0*60.0)]; // + 7 days
+    return [EventAnnotation calendarAnnotationsFrom:[NSDate date] to:endDate];
 }
 ///////////////////////////////////////////////////////
 ///          Handles

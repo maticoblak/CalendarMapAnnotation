@@ -41,6 +41,22 @@
     
     return toReturn;
 }
++ (NSArray *)calendarAnnotationsFrom:(NSDate *)fromDate to:(NSDate *)toDate {
+    NSMutableArray *toReturn = [[NSMutableArray alloc] init];
+    
+    for(CalendarEntity *entity in [CalendarTools fetchEvents]) {
+        if([entity.eventDate compare:fromDate] == NSOrderedAscending) continue;
+        else if([entity.eventDate compare:toDate] == NSOrderedDescending) continue;
+        EventAnnotation *annotation = [[EventAnnotation alloc] init];
+        annotation.location = annotation.location;
+        
+        annotation.additionalInfo = entity;
+        
+        [toReturn addObject:annotation];
+    }
+    
+    return toReturn;
+}
 ///////////////////////////////////////////////////////
 ///          Map protocol
 #pragma mark Map protocol

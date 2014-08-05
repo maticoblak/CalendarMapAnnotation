@@ -22,5 +22,6 @@
 @property CLLocationCoordinate2D location;
 @property UIColor *color;
 + (NSArray *)calendarAnnotations;
++ (NSArray *)calendarAnnotationsFrom:(NSDate *)fromDate to:(NSDate *)toDate;
 - (MKAnnotationView *)basicAnnotationView;
 @end
