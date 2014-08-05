@@ -33,6 +33,12 @@
     [addNewButton setBackgroundColor:[UIColor grayColor]];
     [addNewButton addTarget:self action:@selector(newEntryPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:addNewButton];
+    
+    UIButton *userTrackingButton = [[UIButton alloc] initWithFrame:CGRectMake(11.0f, addNewButton.bottom+10.0f, 80.0f, 36.0f)];
+    [userTrackingButton setTitle:@"Tracking" forState:UIControlStateNormal];
+    [userTrackingButton setBackgroundColor:[UIColor grayColor]];
+    [userTrackingButton addTarget:self action:@selector(trackUserPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:userTrackingButton];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -83,5 +89,36 @@
         [_addNewPopupView removeFromSuperview];
         _addNewPopupView = nil;
     }];
+}
+///////////////////////////////////////////////////////
+///          Tracking
+#pragma mark Tracking
+///////////////////////////////////////////////////////
+- (void)trackUserPressed:(id)sender {
+    //toggle
+    if(_trackingEnabled) {
+        [[UserTracking sharedInstance] beginTracking];
+        [UserTracking sharedInstance].delegate = self;
+        _trackingEnabled = NO;
+        if(_userAnotation == nil) {
+            _userAnotation = [[EventAnnotation alloc] init];
+            _userAnotation.color = [UIColor yellowColor];
+            [_mapView.map addAnnotation:_userAnotation];
+        }
+    }
+    else {
+        [[UserTracking sharedInstance] endTracking];
+        [UserTracking sharedInstance].delegate = nil;
+        _trackingEnabled = YES;
+        if(_userAnotation == nil) {
+            [_mapView.map removeAnnotation:_userAnotation];
+            _userAnotation = nil;
+        }
+    }
+}
+- (void)userTracking:(UserTracking *)sender updatedUserLocation:(CLLocationCoordinate2D)coordinate {
+    _userAnotation.location = coordinate;
+    [_mapView.map setRegion:MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(.01, .01)) animated:YES];
+    
 }
 @end

@@ -20,6 +20,7 @@
 }
 @property id additionalInfo;
 @property CLLocationCoordinate2D location;
+@property UIColor *color;
 + (NSArray *)calendarAnnotations;
 - (MKAnnotationView *)basicAnnotationView;
 @end

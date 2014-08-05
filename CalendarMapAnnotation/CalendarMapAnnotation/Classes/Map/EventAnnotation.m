@@ -57,7 +57,7 @@
     MKAnnotationView *toReturn = [[MKAnnotationView alloc] initWithFrame:CGRectMake(.0f, .0f, dimension, dimension)];
     toReturn.clipsToBounds = YES;
     toReturn.layer.cornerRadius = dimension*.5f;
-    toReturn.backgroundColor = [UIColor redColor];
+    toReturn.backgroundColor = self.color?self.color:[UIColor redColor];
     return toReturn;
 }
 @end

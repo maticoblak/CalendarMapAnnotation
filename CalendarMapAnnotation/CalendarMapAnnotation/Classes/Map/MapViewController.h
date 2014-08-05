@@ -9,15 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "MapView.h"
 #import "AddNewEventView.h"
+#import "UserTracking.h"
 ///////////////////////////////////////////////////////
 ///
 ///          -MapViewController-
 #pragma mark -MapViewController
 ///
 ///////////////////////////////////////////////////////
-@interface MapViewController : UIViewController<MapViewProtocol, AddNewEventViewProtocol> {
+@interface MapViewController : UIViewController<
+MapViewProtocol,
+AddNewEventViewProtocol,
+UserTrackingProtocol> {
     MapView *_mapView;
     NSTimer *_refreshTimer;
     AddNewEventView *_addNewPopupView;
+    BOOL _trackingEnabled;
+    
+    EventAnnotation *_userAnotation;
 }
 @end

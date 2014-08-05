@@ -29,6 +29,7 @@
 		210C0DE81990CBF500F138B2 /* CalendarTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 210C0DE71990CBF500F138B2 /* CalendarTools.m */; };
 		210C0DEB1990D1B300F138B2 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210C0DEA1990D1B300F138B2 /* MapViewController.m */; };
 		219FB2F71990E96300AF56E2 /* AddNewEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 219FB2F61990E96300AF56E2 /* AddNewEventView.m */; };
+		219FB2FA1990F41300AF56E2 /* UserTracking.m in Sources */ = {isa = PBXBuildFile; fileRef = 219FB2F91990F41300AF56E2 /* UserTracking.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,8 @@
 		210C0DEA1990D1B300F138B2 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		219FB2F51990E96300AF56E2 /* AddNewEventView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewEventView.h; sourceTree = "<group>"; };
 		219FB2F61990E96300AF56E2 /* AddNewEventView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewEventView.m; sourceTree = "<group>"; };
+		219FB2F81990F41300AF56E2 /* UserTracking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTracking.h; sourceTree = "<group>"; };
+		219FB2F91990F41300AF56E2 /* UserTracking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTracking.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +200,8 @@
 				210C0DD71990C90C00F138B2 /* MapView.m */,
 				210C0DE21990CB3300F138B2 /* EventAnnotation.h */,
 				210C0DE31990CB3300F138B2 /* EventAnnotation.m */,
+				219FB2F81990F41300AF56E2 /* UserTracking.h */,
+				219FB2F91990F41300AF56E2 /* UserTracking.m */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -344,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				219FB2FA1990F41300AF56E2 /* UserTracking.m in Sources */,
 				219FB2F71990E96300AF56E2 /* AddNewEventView.m in Sources */,
 				210C0DB61990C87600F138B2 /* ViewController.m in Sources */,
 				210C0DE01990C9BA00F138B2 /* ExtensionUIViewControllerViewExtension.m in Sources */,
