@@ -15,6 +15,7 @@
 - (NSArray *)mapViewAnotations:(MapView *)sender;
 @optional
 - (void)mapView:(MapView *)sender didChangeRegion:(MKCoordinateRegion)region;
+- (void)mapView:(MapView *)sender didSelectRegion:(MKCoordinateRegion)region;
 @end
 ///////////////////////////////////////////////////////
 ///
@@ -22,11 +23,17 @@
 #pragma mark -MapView
 ///
 ///////////////////////////////////////////////////////
-@interface MapView : UIView<MKMapViewDelegate> {
+@interface MapView : UIView<MKMapViewDelegate, UIGestureRecognizerDelegate> {
     MKMapView *_mapView;
     NSArray *_annotationCache;
+    
+    UIView *_regionSelectionView;
+    UIPanGestureRecognizer *_panGesture;
+    NSInteger corrnerIndex;
 }
 @property (weak) id<MapViewProtocol> delegate;
 @property (readonly) MKMapView *map;
 - (void)reloadData; //reloads new data
+- (void)beginRegionSelectionMode;
+- (void)endRegionSelectionMode;
 @end

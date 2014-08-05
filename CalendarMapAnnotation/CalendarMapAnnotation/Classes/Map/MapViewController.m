@@ -46,6 +46,15 @@
     [datePickerButton setBackgroundColor:[UIColor grayColor]];
     [datePickerButton addTarget:self action:@selector(dateSelectionPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:datePickerButton];
+    
+    UIButton *regionSelectionButton = [[UIButton alloc] initWithFrame:CGRectMake(11.0f, datePickerButton.bottom+10.0f, 80.0f, 36.0f)];
+    regionSelectionButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    regionSelectionButton.titleLabel.numberOfLines = 0;
+    [regionSelectionButton setTitle:@"Select region" forState:UIControlStateNormal];
+    [regionSelectionButton setTitle:@"End selection" forState:UIControlStateSelected];
+    [regionSelectionButton setBackgroundColor:[UIColor grayColor]];
+    [regionSelectionButton addTarget:self action:@selector(regionSelectionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:regionSelectionButton];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -190,5 +199,20 @@
 }
 - (void)dateChanged:(UIDatePicker *)picker {
     _selectedPresentationDate = picker.date;
+}
+///////////////////////////////////////////////////////
+///          Region selection
+#pragma mark Region selection
+///////////////////////////////////////////////////////
+- (void)regionSelectionPressed:(UIButton *)sender {
+    //toggle
+    sender.selected = !sender.selected;
+    
+    if(sender.selected) {
+        [_mapView beginRegionSelectionMode];
+    }
+    else {
+        [_mapView endRegionSelectionMode];
+    }
 }
 @end
