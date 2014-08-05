@@ -39,6 +39,12 @@
     [userTrackingButton setBackgroundColor:[UIColor grayColor]];
     [userTrackingButton addTarget:self action:@selector(trackUserPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:userTrackingButton];
+    
+    UIButton *datePickerButton = [[UIButton alloc] initWithFrame:CGRectMake(11.0f, userTrackingButton.bottom+10.0f, 80.0f, 36.0f)];
+    [datePickerButton setTitle:@"Date" forState:UIControlStateNormal];
+    [datePickerButton setBackgroundColor:[UIColor grayColor]];
+    [datePickerButton addTarget:self action:@selector(dateSelectionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:datePickerButton];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -58,8 +64,10 @@
 #pragma mark Map protocol
 ///////////////////////////////////////////////////////
 - (NSArray *)mapViewAnotations:(MapView *)sender {
-    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[[NSDate date] timeIntervalSince1970] + (7.0*24.0*60.0*60.0)]; // + 7 days
-    return [EventAnnotation calendarAnnotationsFrom:[NSDate date] to:endDate];
+    NSDate *startDate = _selectedPresentationDate;
+    if(startDate == nil) startDate = [NSDate date];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:[startDate timeIntervalSince1970] + (7.0*24.0*60.0*60.0)]; // + 7 days
+    return [EventAnnotation calendarAnnotationsFrom:startDate to:endDate];
 }
 ///////////////////////////////////////////////////////
 ///          Handles
@@ -121,5 +129,42 @@
     _userAnotation.location = coordinate;
     [_mapView.map setRegion:MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(.01, .01)) animated:YES];
     
+}
+///////////////////////////////////////////////////////
+///          Date selection
+#pragma mark Date selection
+///////////////////////////////////////////////////////
+- (void)dateSelectionPressed:(id)sender {
+    _overlay = [[UIButton alloc] initWithFrame:CGRectMake(.0f, .0f, self.width, self.height)];
+    _overlay.backgroundColor = [UIColor colorWithWhite:.2f alpha:.4f];
+    _overlay.alpha = .0f;
+    [_overlay addTarget:self action:@selector(hideDateOverlay:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_overlay];
+    
+    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(.0f, self.height, self.width, self.width)];
+    [_datePicker setDate:_selectedPresentationDate?_selectedPresentationDate:[NSDate date]];
+    _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    _datePicker.backgroundColor = [UIColor whiteColor];
+    [_datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    [_overlay addSubview:_datePicker];
+    
+    [UIView animateWithDuration:.2 animations:^{
+        _overlay.alpha = 1.0f;
+        _datePicker.bottom = self.height;
+    }];
+}
+- (void)hideDateOverlay:(id)sender {
+    [UIView animateWithDuration:.2 animations:^{
+        _overlay.alpha = .0f;
+        _datePicker.top = self.height;
+    } completion:^(BOOL finished) {
+        [_overlay removeFromSuperview];
+        _overlay = nil;
+        [_datePicker removeFromSuperview];
+        _datePicker = nil;
+    }];
+}
+- (void)dateChanged:(UIDatePicker *)picker {
+    _selectedPresentationDate = picker.date;
 }
 @end

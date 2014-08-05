@@ -26,5 +26,10 @@ UserTrackingProtocol> {
     BOOL _trackingEnabled;
     
     EventAnnotation *_userAnotation;
+    
+    NSDate *_selectedPresentationDate;
+    
+    UIButton *_overlay;
+    UIDatePicker *_datePicker;
 }
 @end
